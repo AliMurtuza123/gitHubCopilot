@@ -113,6 +113,30 @@ section h3 {
   flex-shrink: 0;
 }
 
+.participant-email {
+  flex: 1 1 auto;
+  word-break: break-word;
+}
+
+.unregister-btn {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.unregister-btn:hover {
+  background: #ffcdd2;
+}
+
 .form-group {
   margin-bottom: 15px;
 }
