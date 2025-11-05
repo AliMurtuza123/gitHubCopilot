@@ -20,11 +20,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
+        // Build participants HTML (bulleted, with badges). Use escaped content.
+        const participantsHtml =
+          details.participants && details.participants.length
+            ? `<div class="participants"><strong>Participants:</strong><ul class="participants-list">` +
+              details.participants
+                .map((p) => {
+                  const display = escapeHtml(p);
+                  const initial = escapeHtml(String(p).trim()[0] || "").toUpperCase();
+                  return `<li><span class="participant-badge">${initial}</span>${display}</li>`;
+                })
+                .join("") +
+              `</ul></div>`
+            : `<p class="info">No participants yet.</p>`;
+
         activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
+          <h4>${escapeHtml(name)}</h4>
+          <p>${escapeHtml(details.description)}</p>
+          <p><strong>Schedule:</strong> ${escapeHtml(details.schedule)}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          ${participantsHtml}
         `;
 
         activitiesList.appendChild(activityCard);
@@ -39,6 +54,16 @@ document.addEventListener("DOMContentLoaded", () => {
       activitiesList.innerHTML = "<p>Failed to load activities. Please try again later.</p>";
       console.error("Error fetching activities:", error);
     }
+  }
+
+  // Small helper to escape HTML content
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
   // Handle form submission
